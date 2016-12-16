@@ -1,0 +1,35 @@
+{
+  "name": "typestack",
+  "version": "0.0.1.alpha-1",
+  "description": "Framework for TypeScript and Node.JS",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "private": true,
+  "author": {
+    "name": "Umed Khudoiberdiev",
+    "email": "pleerock.me@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pleerock/ng2-select-controls.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pleerock/ng2-select-controls/issues"
+  },
+  "tags": [
+    "framework",
+    "typescript-framework"
+  ],
+  "dependencies": {
+    "typedi": "^0.4.2"
+  },
+  "devDependencies": {
+    "typeorm": "0.0.5",
+    "typeorm-typedi-extensions": "0.0.7",
+    "typescript": "^2.2.0-dev.20161214"
+  },
+  "scripts": {
+    "start": "",
+    "test": ""
+  }
+}
