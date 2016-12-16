@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es6",
     "lib": ["es6"],
-    "outDir": "build",
+    "outDir": "build/compiled",
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true

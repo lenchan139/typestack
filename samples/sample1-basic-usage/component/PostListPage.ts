@@ -1,7 +1,6 @@
 import {Post} from "../model/Post";
-import {Fetcher} from "../../core/client/Fetcher";
-import {InjectFetcher} from "../../core/client/decorators/InjectFetcher";
-
+import {InjectFetcher} from "../../../src/client/decorators/InjectFetcher";
+import {Fetcher} from "../../../src/client/Fetcher";
 
 export class PostListPage {
 
