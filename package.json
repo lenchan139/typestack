@@ -11,10 +11,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/pleerock/ng2-select-controls.git"
+    "url": "https://github.com/typestack/typestack.git"
   },
   "bugs": {
-    "url": "https://github.com/pleerock/ng2-select-controls/issues"
+    "url": "https://github.com/typestack/typestack/issues"
   },
   "tags": [
     "framework",
