@@ -1,4 +1,4 @@
-export function RemoveMany<T>() {
+export function RemoveByIds() {
     return function(object: Object, methodName: string) {
     };
 }

@@ -1,4 +1,4 @@
-export class PostFilter {
+export class PostFilterCriteria {
 
     limit: number;
     offset: number;

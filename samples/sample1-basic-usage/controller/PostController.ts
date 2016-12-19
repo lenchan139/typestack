@@ -1,12 +1,12 @@
 import {Service} from "typedi";
 import {Post} from "../model/Post";
 import {PostByNameCriteria} from "../criteria/PostCriteria";
-import {PostFilter} from "../filter/PostFilter";
+import {PostFilterCriteria} from "../filter/PostFilter";
 import {PostRepository} from "../repository/PostRepository";
 import {Controller} from "../../../src/server/decorator/Controller";
 import {GetById} from "../../../src/server/decorator/GetById";
 import {ActionFraction} from "../../../src/server/decorator/ActionFraction";
-import {Fraction, RemoveOne} from "../../../src/index";
+import {Fraction, Remove} from "../../../src/index";
 import {ActionParams} from "../../../src/server/decorator/ActionParams";
 import {ParamsBag} from "../../../src/common/ParamsBag";
 import {GetByIds} from "../../../src/server/decorator/GetByIds";
@@ -14,11 +14,16 @@ import {GetOne} from "../../../src/server/decorator/GetOne";
 import {GetMany} from "../../../src/server/decorator/GetMany";
 import {GetManyAndCount} from "../../../src/server/decorator/GetManyAndCount";
 import {SaveOne} from "../../../src/server/decorator/SaveOne";
-import {RemoveMany} from "../../../src/server/decorator/RemoveMany";
 import {Upload} from "../../../src/server/decorator/Upload";
 import {GetAction} from "../../../src/server/decorator/GetAction";
 import {PostAction} from "../../../src/server/decorator/PostAction";
 import {RemoveAction} from "../../../src/server/decorator/RemoveAction";
+import {SaveMany} from "../../../src/server/decorator/SaveMany";
+import {PostRemoveByNameCriteria} from "../criteria/PostRemoveByNameCriteria";
+import {Role} from "../../../src/server/decorator/Role";
+import {PostAdminRole} from "../role/PostAdminRole";
+import {RemoveById} from "../../../src/server/decorator/RemoveById";
+import {RemoveByIds} from "../../../src/server/decorator/RemoveByIds";
 
 @Service()
 @Controller(Post)
@@ -28,7 +33,16 @@ export class PostController {
     }
 
     @GetById()
-    getOneById(id: number, @ActionFraction() fraction?: Fraction<Post>, @ActionParams() params?: ParamsBag): Promise<Post> {
+    getOneById(id: number): Promise<Post> {
+        // returns one post by id
+        // options.fraction is optional and can be used to extract only object's partial
+        // options.parameters are optional data object with any data inside which can be sent by a client
+        return this.postRepository.findById(id);
+    }
+
+    @GetById()
+    @Role(PostAdminRole)
+    getOneByIdForAdmin(id: number): Promise<Post> {
         // returns one post by id
         // options.fraction is optional and can be used to extract only object's partial
         // options.parameters are optional data object with any data inside which can be sent by a client
@@ -36,10 +50,18 @@ export class PostController {
     }
 
     @GetByIds()
-    getOneByIds(ids: number[], @ActionFraction() fraction?: Fraction<Post>, @ActionParams() params?: ParamsBag): Promise<Post[]> {
+    getOneByIds(ids: number[], @ActionParams() params?: ParamsBag): Promise<Post[]> {
         // returns many posts by a given ids
         // fraction is optional and can be used to extract only object's partial
         // parameters are optional data object with any data inside which can be sent by a client
+        const fraction: Fraction<Post> = {
+            id: true,
+            text: true,
+            category: {
+                id: true,
+                name: true
+            }
+        };
         return this.postRepository.findByIds(ids);
     }
 
@@ -53,8 +75,8 @@ export class PostController {
         // returns array of posts without filter being set
     }
 
-    @GetMany(PostFilter)
-    manyByPostFilter(filter: PostFilter, @ActionFraction() fraction?: Fraction<Post>, @ActionParams() params?: ParamsBag) {
+    @GetMany(PostFilterCriteria)
+    manyByPostFilter(criteria: PostFilterCriteria, @ActionFraction() fraction?: Fraction<Post>, @ActionParams() params?: ParamsBag) {
         // returns array of posts without filter being set
     }
 
@@ -63,8 +85,8 @@ export class PostController {
         // returns array of posts + overall number of posts
     }
 
-    @GetManyAndCount(PostFilter)
-    manyAndCountByPostFilter(filter: PostFilter, @ActionFraction() fraction?: Fraction<Post>, @ActionParams() params?: ParamsBag) {
+    @GetManyAndCount(PostFilterCriteria)
+    manyAndCountByPostFilter(filter: PostFilterCriteria, @ActionFraction() fraction?: Fraction<Post>, @ActionParams() params?: ParamsBag) {
         // returns array of posts + overall number of posts that matched given filter
     }
 
@@ -74,14 +96,25 @@ export class PostController {
         // it can be used for partial updates of the Post object
     }
 
-    @RemoveOne()
+    @SaveMany()
+    saveMany(posts: Post[], /* you can use custom decorators: @SessionUser() user: User, */@ActionParams() params?: ParamsBag) {
+        // just saves the post. can save post completely and partially
+        // it can be used for partial updates of the Post object
+    }
+
+    @RemoveById()
     removeOne(id: number, @ActionParams() params?: ParamsBag) {
         // remove one post by given id
     }
 
-    @RemoveMany()
+    @RemoveByIds()
     removeMany(ids: number[], @ActionParams() params?: ParamsBag) {
         // remove many posts by given ids
+    }
+
+    @Remove(PostRemoveByNameCriteria)
+    removeByName(criteria: PostRemoveByNameCriteria, @ActionParams() params?: ParamsBag) {
+        // remove any by given post name from the criteria
     }
 
     @Upload()

@@ -14,7 +14,7 @@ export * from "./server/decorator/GetOne";
 export * from "./server/decorator/PostAction";
 export * from "./server/decorator/RemoveAction";
 export * from "./server/decorator/RemoveMany";
-export * from "./server/decorator/RemoveOne";
+export * from "./server/decorator/Remove";
 export * from "./server/decorator/SaveOne";
 export * from "./server/decorator/Upload";
 export * from "./common/Criteria";
